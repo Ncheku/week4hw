@@ -36,7 +36,7 @@ mergetest <- cbind("test", mergetest)
 colnames(mergetrain)[1] <- "Data_Set"
 colnames(mergetest)[1] <- "Data_Set"
 
-#creates the final data set and saves it
+#creates the final data set and saves it Step 1
 findata <- rbind(mergetrain, mergetest)
 findata <- as.data.table(findata)
 save(findata, file="master_data.RData")
@@ -44,25 +44,25 @@ save(findata, file="master_data.RData")
 #This will load the final data set if I decide to exit and come back later
 load("master_data.RData")
 
-#the next two lines of code change the data in activity_labels into factors
+#the next two lines of code change the data in activity_labels into factors (Step 3)
 #and inputs the physical activity with the corresponding number
 findata$activity_label <- factor(findata$activity_label, levels=c('1','2','3','4','5','6'), 
 labels=c('Walking', 'Walking Upstairs', 'Walking Downstairs', 'Sitting', 'Standing', 'Laying'))
 
 
-#extract the columns that have the mean for each row
+#extract the columns that have the mean for each row (Step 2)
 #then find the mean for the subset of columns
 meancol <- subset(findata, select=findata[,grepl("mean", names(findata))])
 meancol <- sapply(meancol, mean)
 meancol
 
-#extract the columns that have the standard deviation for each row
+#extract the columns that have the standard deviation for each row (Step 2)
 #then find the standard deviation of the subset of columns
 stdevcol <- subset(findata, select=findata[,grepl("std", names(findata))])
 stdevcol <- sapply(stdevcol, sd)
 stdevcol
 
-#This makes some of the column headers easier to understand
+#This makes some of the column headers easier to understand (Step 4)
 names(findata) <- gsub("Acc", "Accelerator", names(findata))
 names(findata) <- gsub("Mag", "Magnitude", names(findata))
 names(findata) <- gsub("Gyro", "Gyroscope", names(findata))
@@ -70,11 +70,14 @@ names(findata) <- gsub("^t", "time", names(findata))
 names(findata) <- gsub("^f", "frequency", names(findata))
 
 
-#Step 5 make a tidy data set
-findata <- ddply(findata, .(person.id,activity_label), numcolwise(mean))
-write.table(findata, file="tidydata.csv",row.names=TRUE)
+#(Step 5) make a tidy data set
+findata2 <- ddply(findata, .(person.id,activity_label), numcolwise(mean))
+write.table(findata2, file="tidydata.Rda",row.names=TRUE)
+save(findata2, file="tidydata.Rda")
 View(findata)
-
+#For some reason when I save the tidy data set as a text file
+#the format gets screwed up.  I apologize, but to view the tidy data you will need to 
+#to open it in RStudio or the Rgui and use the View() command.
 
 
 
