@@ -72,8 +72,8 @@ names(findata) <- gsub("^f", "frequency", names(findata))
 
 #(Step 5) make a tidy data set
 findata2 <- ddply(findata, .(person.id,activity_label), numcolwise(mean))
-write.table(findata2, file="tidydata.Rda",row.names=TRUE)
-save(findata2, file="tidydata.Rda")
+write.table(findata2, file="tidydata.txt",row.names=TRUE)
+save(findata2, file="tidydata.txt")
 View(findata)
 #For some reason when I save the tidy data set as a text file
 #the format gets screwed up.  I apologize, but to view the tidy data you will need to 
