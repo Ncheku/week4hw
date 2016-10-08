@@ -75,9 +75,7 @@ findata2 <- ddply(findata, .(person.id,activity_label), numcolwise(mean))
 write.table(findata2, file="tidydata.txt",row.names=TRUE)
 save(findata2, file="tidydata.txt")
 View(findata)
-#For some reason when I save the tidy data set as a text file
-#the format gets screwed up.  I apologize, but to view the tidy data you will need to 
-#to open it in RStudio or the Rgui and use the View() command.
+#Looks a little weird in a text file so I apologize for that.
 
 
 
