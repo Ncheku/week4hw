@@ -69,6 +69,11 @@ names(findata) <- gsub("Gyro", "Gyroscope", names(findata))
 names(findata) <- gsub("^t", "time", names(findata))
 names(findata) <- gsub("^f", "frequency", names(findata))
 
+#Extract mean and standard Dev
+findata2 <- cbind(findata$person.id, findata$activity_label, meancol,stdevcol)
+View(findata2)
+colname <- list(colnames(findata2))
+findata2 <- select(findata2, person.id=V1,activity_label=V2,findata2[,3:81])
 
 #(Step 5) make a tidy data set
 findata2 <- ddply(findata, .(person.id,activity_label), numcolwise(mean))
